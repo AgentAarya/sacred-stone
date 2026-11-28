@@ -354,7 +354,7 @@ for(let x of [.8,2.2,3.55])for(let z of [-1.75,1.75])pillar(groups[3],x,z);
 block(groups[4],3.9,.16,4.1,2.2,.83,0,light);for(let x of [1.3,3.05])pillar(groups[4],x,0);
 for(let z of [-1.1,1.1])pillar(groups[5],4.1,z);block(groups[5],1.35,.16,2.8,3.85,.68,0);
 block(groups[6],4.05,.2,4.2,-1.6,2.85,0,dark);block(groups[6],4.7,.22,4.45,2.1,2.85,0,light);block(groups[6],4.8,.15,4.6,2.1,3.02,0,dark);block(groups[6],4.2,.16,4.35,-1.6,3.06,0,light);
-for(let i=0;i<3;i++){const w=3.75-i*.88,y=3.34+i*.60;block(groups[7],w,.42,w,-1.6,y,0);block(groups[7],w+.22,.12,w+.22,-1.6,y+.22,0,light);block(groups[7],w+.32,.09,w+.32,-1.6,y-.22,0,dark);
+for(let i=0;i<3;i++){const w=3.75-i*.88,y=3.34+i*.60;block(groups[7],w,.49,w,-1.6,y,0);block(groups[7],w+.22,.13,w+.22,-1.6,y+.245,0,light);block(groups[7],w+.32,.12,w+.32,-1.6,y-.25,0,dark);
  const count=3-i;for(let j=0;j<count;j++){const p=count===1?0:-w*.31+j*w*.62/(count-1);
  for(const sign of [-1,1]){block(groups[7],.46,.29,.18,-1.6+p,y,sign*(w/2+.04),light);block(groups[7],.56,.08,.25,-1.6+p,y+.16,sign*(w/2+.05),dark);block(groups[7],.18,.29,.46,-1.6+sign*(w/2+.04),y,p,light);block(groups[7],.25,.08,.56,-1.6+sign*(w/2+.05),y+.16,p,dark);}}}
 block(groups[8],1.22,.34,1.22,-1.6,4.95,0,dark);
@@ -381,7 +381,7 @@ renderTempleFrame=(time,dt)=>{
 try {
  const host=document.getElementById('cave-art'),fallback=document.getElementById('cave-fallback');
  const world=new THREE.Scene(),camera=new THREE.PerspectiveCamera(38,1,.1,100);
- const view=new THREE.Vector3(9,6.5,18.5);camera.position.copy(view);
+ const view=new THREE.Vector3(6.5,5.8,19.5);camera.position.copy(view);
  const cr=new THREE.WebGLRenderer({alpha:true,antialias:true});
  cr.setPixelRatio(Math.min(devicePixelRatio,innerWidth<=800?1.1:1.45));
  cr.outputColorSpace=THREE.SRGBColorSpace;cr.toneMapping=THREE.ACESFilmicToneMapping;cr.toneMappingExposure=1.15;cr.domElement.setAttribute('aria-label','Three-dimensional educational cave excavation model');
@@ -439,11 +439,11 @@ try {
  cb.onclick=()=>{cut=!cut;cb.textContent=cut?'Restore cliff':'Cutaway';dirty=true;};
  ob.onclick=()=>{orbit=!orbit;cc.enableRotate=orbit;cc.enableZoom=orbit;cc.domElement.toggleAttribute('data-lenis-prevent',orbit);ob.textContent=orbit?'Lock view':'Orbit model';dirty=true;};
  cc.addEventListener('change',()=>{dirty=true;});
- function resize(){const w=host.clientWidth,hh=host.clientHeight;if(!w||!hh)return;cr.setSize(w,hh,false);camera.aspect=w/hh;camera.fov=camera.aspect<.9?54:38;camera.updateProjectionMatrix();dirty=true;}
+ function resize(){const w=host.clientWidth,hh=host.clientHeight;if(!w||!hh)return;cr.setSize(w,hh,false);camera.aspect=w/hh;const vertical=2*Math.atan(Math.tan(THREE.MathUtils.degToRad(48)/2)/Math.min(1,camera.aspect));camera.fov=THREE.MathUtils.radToDeg(vertical);camera.updateProjectionMatrix();dirty=true;}
  new ResizeObserver(resize).observe(host);resize();
  new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)dirty=true;},{rootMargin:'80px'}).observe(host);
  cr.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();fallback.hidden=false;cr.domElement.style.display='none';cb.disabled=true;ob.disabled=true;renderCaveFrame=null;});
- const cutPos=new THREE.Vector3(12,12,15);
+ const cutPos=new THREE.Vector3(11,13,19);
  renderCaveFrame=(time,dt)=>{
   if(!visible||document.hidden)return;
   if(prior!==caveStep){prior=caveStep;dirty=true;}
